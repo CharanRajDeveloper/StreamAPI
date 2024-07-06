@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 public class StudentImpl {
@@ -21,19 +22,33 @@ public class StudentImpl {
 				new Student(10, "Shubham", "Pandey", 26, "Male", "Instrumentation Engineering", 2017, "Mumbai", 98));
 
 		// ForEach Method
-		//studentList.stream().forEach(System.out::println);
+		// studentList.stream().forEach(System.out::println);
 
 		// List of Students whose names start with "A"
-		 studentList.stream().filter(p -> p.getFirstName().startsWith("A") || p.getFirstName().startsWith("a"))
+		studentList.stream().filter(p -> p.getFirstName().startsWith("A") || p.getFirstName().startsWith("a"))
 				.forEach(System.out::println);
-		//System.out.println("List of Students whose Names starts with 'A':" + studentName);
-	  System.out.println("***************************************");
-	 //Grouping the students based on Departments
-	 Map<String, List<Student>> studentgroupbydept=studentList.stream().collect(Collectors.groupingBy(Student::getDepartmantName));
-	  for(Entry<String, List<Student>> m:studentgroupbydept.entrySet()) {
-		  System.out.println(m.getKey()+"::"+m.getValue());
-	  }
-	  System.out.println("***************************************");
-	  //Find the total count of student using stream
+		// System.out.println("List of Students whose Names starts with 'A':" +
+		// studentName);
+		System.out.println("***************************************");
+		// Grouping the students based on Departments
+		Map<String, List<Student>> studentgroupbydept = studentList.stream()
+				.collect(Collectors.groupingBy(Student::getDepartmantName));
+		for (Entry<String, List<Student>> m : studentgroupbydept.entrySet()) {
+			System.out.println(m.getKey() + "::" + m.getValue());
+		}
+		System.out.println("***************************************");
+		// Find the total count of student using stream
+		long count = studentList.stream().count();
+		System.out.println("Total count of Students:" + count);
+		System.out.println("*********************************************");
+		// Find the max age of student
+		OptionalInt i = studentList.stream().mapToInt(p -> p.getAge()).max();
+		System.out.println("Max age of student : " + i);
+		System.out.println("****************************************");
+		// Find all departments names
+		List<String> distinctDept = studentList.stream().map(p -> p.getDepartmantName()).distinct()
+				.collect(Collectors.toList());
+		System.out.println("Distinct Departments");
+		distinctDept.stream().forEach(System.out::println);
 	}
 }
