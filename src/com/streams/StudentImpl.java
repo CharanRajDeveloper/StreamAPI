@@ -1,5 +1,6 @@
 package com.streams;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -50,5 +51,27 @@ public class StudentImpl {
 				.collect(Collectors.toList());
 		System.out.println("Distinct Departments");
 		distinctDept.stream().forEach(System.out::println);
+		System.out.println("******************************************************************");
+		// Find the count of student in each department
+		Map<String, Long> countofStudent = studentList.stream()
+				.collect(Collectors.groupingBy(Student::getDepartmantName, Collectors.counting()));
+		for (Map.Entry<String, Long> c : countofStudent.entrySet()) {
+			System.out.println(c.getKey() + ":::" + c.getValue());
+		}
+		System.out.println("--------------------");
+		countofStudent.forEach((k, v) -> System.out.println(k + "::" + v));
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+		//Find the list of students whose age is less than 30
+		List<Student> sag30=studentList.stream().filter(p->p.getAge()>30).map(p->p).collect(Collectors.toList());
+		sag30.forEach(System.out::println);
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		//Find the list of students whose rank is in between 50 and 100
+		Long cou=studentList.stream().filter(o->o.getRank()>50 && o.getRank()<100).collect(Collectors.counting());
+		studentList.stream().filter(o->o.getRank()>50 && o.getRank()<100).map(o->o).collect(Collectors.toList()).forEach(System.out::println);
+	     System.out.println(cou);
+	     System.out.println(":::::::::::::::::::::::::::::");
+	     List<String> l=new ArrayList<String>(Arrays.asList("C","A","X","z"));
+	     l.stream().filter(p->p.startsWith("C")).forEach(System.out::println);
+	     
 	}
 }
