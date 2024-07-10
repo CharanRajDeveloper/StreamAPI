@@ -3,6 +3,7 @@ package com.streams;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -93,6 +94,25 @@ public class StudentImpl {
 		System.out.println("Find the Students who stays in Delhi and sort them by their names");
 		List<Student> s = studentList.stream().filter(p -> p.getCity().equalsIgnoreCase("delhi"))
 				.sorted((a, b) -> b.getFirstName().compareTo(a.getFirstName())).collect(Collectors.toList());
-        s.forEach(System.out::println);
+		s.forEach(System.out::println);
+
+		System.out.println("Find the average rank in all departments");
+		studentList.stream()
+				.collect(Collectors.groupingBy(Student::getDepartmantName, Collectors.averagingInt(Student::getRank)))
+				.forEach((a, b) -> System.out.println(a + "::" + b));
+
+		System.out.println("Find the highest rank in each department");
+		studentList.stream()
+				.collect(Collectors.groupingBy(Student::getDepartmantName,
+						Collectors.maxBy(Comparator.comparing(Student::getRank))))
+				.forEach((a, b) -> System.out.println(a + "::" + b));
+		System.out.println("Find the list of students and sort them by their rank");
+		System.out.println("Ascending");
+		studentList.stream().sorted(Comparator.comparing(Student::getRank)).forEach(System.out::println);
+		System.out.println("Descending");
+		studentList.stream().sorted(Comparator.comparing(Student::getRank).reversed()).forEach(System.out::println);
+		System.out.println("Find the student who has second rank");
+		Student secrank = studentList.stream().sorted(Comparator.comparing(Student::getRank)).skip(1).findFirst().get();
+		System.out.println("Second highest rank student  : " + secrank);
 	}
 }
